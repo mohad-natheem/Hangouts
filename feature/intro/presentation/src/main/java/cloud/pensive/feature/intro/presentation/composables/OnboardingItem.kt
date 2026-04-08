@@ -25,8 +25,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cloud.pensive.hangouts.domain.model.OnboardingModel
-import cloud.pensive.hangouts.presentation.utils.horizontalPadding
+import cloud.pensive.core.presentation.utils.utils.horizontalPadding
+import cloud.pensive.feature.intro.presentation.OnboardingModel
 import kotlinx.coroutines.delay
 
 @Composable

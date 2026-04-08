@@ -21,9 +21,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cloud.pensive.hangouts.R
-import cloud.pensive.hangouts.presentation.utils.horizontalPadding
-import cloud.pensive.hangouts.presentation.utils.topPadding
-import cloud.pensive.hangouts.presentation.utils.verticalPadding
+import cloud.pensive.core.presentation.utils.utils.horizontalPadding
+import cloud.pensive.core.presentation.utils.utils.topPadding
+import cloud.pensive.core.presentation.utils.utils.verticalPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

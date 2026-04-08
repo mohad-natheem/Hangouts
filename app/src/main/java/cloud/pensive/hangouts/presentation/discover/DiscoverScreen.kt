@@ -3,10 +3,8 @@ package cloud.pensive.hangouts.presentation.discover
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -39,19 +37,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import cloud.pensive.hangouts.MainActivity
 import cloud.pensive.hangouts.R
 import cloud.pensive.hangouts.presentation.components.CommonDropDown
 import cloud.pensive.hangouts.presentation.components.EnableLocationDialog
 import cloud.pensive.hangouts.presentation.components.EnableLocationInSettingsDialog
 import cloud.pensive.hangouts.presentation.components.TextFieldData
-import cloud.pensive.hangouts.presentation.utils.bottomPadding
-import cloud.pensive.hangouts.presentation.utils.endPadding
+import cloud.pensive.core.presentation.utils.utils.bottomPadding
+import cloud.pensive.core.presentation.utils.utils.endPadding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -61,6 +55,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -147,26 +142,9 @@ fun DiscoverScreen(
 //        }
 //    }
 
-    // Check initial location permission
-    LaunchedEffect(Unit) {
-        viewModel.requestLocationPermission(true, context)
-    }
 
 
     // Animate camera when location selection changes
-    LaunchedEffect(uiState.selectedLocation) {
-        coroutineScope.launch {
-            cameraPositionState.animate(
-                update = CameraUpdateFactory.newLatLngZoom(
-                    uiState.selectedLocation.latLng,
-                    uiState.selectedLocation.zoom
-                ),
-                durationMs = 1000
-            )
-            markerState.position = uiState.selectedLocation.latLng
-        }
-    }
-
     LaunchedEffect(Unit) {
         Timber.tag("natheem").i("Starting to collect UI events")
         viewModel.uiEvent.collect { event ->
@@ -181,9 +159,6 @@ fun DiscoverScreen(
                         durationMs = 1000
                     )
                     markerState.position = event.latLng
-                    MarkerState(
-
-                    )
                 }
 
                 DiscoverViewModel.DiscoverUiEvent.LaunchLocationActivityResultLauncher -> {
@@ -253,12 +228,25 @@ fun DiscoverScreen(
             }
         )
     }
-    
+
     Box(
         modifier = modifier
             .fillMaxSize()
     ) {
         GoogleMap(
+            onMapLoaded = {
+                coroutineScope.launch {
+                    cameraPositionState.animate(
+                        update = CameraUpdateFactory.newLatLngZoom(
+                            uiState.selectedLocation.latLng,
+                            uiState.selectedLocation.zoom
+                        ),
+                        durationMs = 1000
+                    )
+                    markerState.position = uiState.selectedLocation.latLng
+                    viewModel.requestLocationPermission(true, context)
+                }
+            },
             modifier = Modifier
                 .fillMaxSize(),
             cameraPositionState = cameraPositionState,

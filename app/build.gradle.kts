@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.hangouts.android.application.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -6,45 +7,18 @@ plugins {
     alias(libs.plugins.secrets.gradle.plugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.runtracker.android.application.compose)
 }
 
 android {
     namespace = "cloud.pensive.hangouts"
-    compileSdk {
-        version = release(36)
-    }
 
     defaultConfig {
         manifestPlaceholders["MAPS_API_KEY"] =
             project.findProperty("MAPS_API_KEY").toString()
-        applicationId = "cloud.pensive.hangouts"
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        vectorDrawables {
+            useSupportLibrary = true
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlin {
-        jvmToolchain(17)
-    }
-    buildFeatures {
-        compose = true
-        buildConfig = true
     }
 }
 
@@ -62,6 +36,7 @@ dependencies {
     implementation(libs.google.android.gms.play.services.location)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp)
+    implementation(libs.androidx.material.icons.extended)
 
     //Nav3
     implementation(libs.androidx.navigation3.ui)

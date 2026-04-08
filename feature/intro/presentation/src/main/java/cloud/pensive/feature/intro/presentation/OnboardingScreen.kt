@@ -1,6 +1,3 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -13,10 +10,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import cloud.pensive.hangouts.presentation.onboarding.composables.OnboardingBottomBar
-import cloud.pensive.hangouts.presentation.onboarding.composables.OnboardingItem
-import cloud.pensive.hangouts.presentation.utils.WindowInsetsHelper.navigationBarPadding
-import cloud.pensive.hangouts.presentation.utils.horizontalPadding
+import cloud.pensive.core.presentation.utils.utils.WindowInsetsHelper.navigationBarPadding
+import cloud.pensive.core.presentation.utils.utils.horizontalPadding
+import cloud.pensive.feature.intro.presentation.composables.OnboardingBottomBar
+import cloud.pensive.feature.intro.presentation.composables.OnboardingItem
 import kotlinx.coroutines.launch
 
 @Composable

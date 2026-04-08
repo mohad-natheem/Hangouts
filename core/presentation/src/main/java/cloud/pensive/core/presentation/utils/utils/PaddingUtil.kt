@@ -1,4 +1,4 @@
-package cloud.pensive.hangouts.presentation.utils
+package cloud.pensive.core.presentation.utils.utils
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

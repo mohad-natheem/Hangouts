@@ -61,6 +61,14 @@ class DiscoverViewModel @Inject constructor(
                     updateUserLocationState(
                         LatLng(location.latitude, location.longitude)
                     )
+                    sendUiEvent(
+                        DiscoverUiEvent.AnimateCameraPosition(
+                            LatLng(
+                                location.latitude,
+                                location.longitude
+                            ), 14f
+                        )
+                    )
                 }
             }
         } else {
@@ -86,6 +94,12 @@ class DiscoverViewModel @Inject constructor(
                         locationInput = action.location.name
                     )
                 }
+                sendUiEvent(
+                    DiscoverUiEvent.AnimateCameraPosition(
+                        action.location.latLng,
+                        action.location.zoom
+                    )
+                )
             }
 
             is DiscoverUiAction.OnDropdownExpanded -> {

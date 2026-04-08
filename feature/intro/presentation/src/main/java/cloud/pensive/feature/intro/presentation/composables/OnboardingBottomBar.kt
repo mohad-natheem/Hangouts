@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import cloud.pensive.hangouts.presentation.utils.bottomPadding
-import cloud.pensive.hangouts.presentation.utils.horizontalPadding
+import cloud.pensive.core.presentation.utils.utils.bottomPadding
+import cloud.pensive.core.presentation.utils.utils.horizontalPadding
 
 @Composable
 fun OnboardingBottomBar(

@@ -15,7 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cloud.pensive.hangouts.presentation.components.BottomNavigationBar
 import cloud.pensive.hangouts.presentation.navigation.CustomNavDisplay
-import cloud.pensive.hangouts.presentation.utils.WindowInsetsHelper.navigationBarPadding
+import cloud.pensive.core.presentation.utils.utils.WindowInsetsHelper.navigationBarPadding
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {

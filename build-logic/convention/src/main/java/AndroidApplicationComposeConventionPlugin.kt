@@ -10,7 +10,7 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
             pluginManager.run {
-                apply("runtracker.android.application")
+                apply("hangouts.android.application")
                 apply(libs.findPlugin("compose-compiler").get().get().pluginId)
             }
 

@@ -7,11 +7,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -21,10 +18,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import cloud.pensive.hangouts.presentation.utils.bottomPadding
-import cloud.pensive.hangouts.presentation.utils.horizontalPadding
-import cloud.pensive.hangouts.presentation.utils.startPadding
-import cloud.pensive.hangouts.presentation.utils.verticalPadding
+import cloud.pensive.core.presentation.utils.utils.bottomPadding
+import cloud.pensive.core.presentation.utils.utils.horizontalPadding
+import cloud.pensive.core.presentation.utils.utils.startPadding
+import cloud.pensive.core.presentation.utils.utils.verticalPadding
 
 @Composable
 fun BottomNavigationBar(

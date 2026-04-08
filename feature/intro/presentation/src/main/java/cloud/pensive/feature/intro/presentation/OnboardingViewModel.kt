@@ -1,13 +1,6 @@
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.lifecycle.ViewModel
-import cloud.pensive.hangouts.R
-import cloud.pensive.hangouts.domain.model.OnboardingModel
+import cloud.pensive.core.presentation.R
+import cloud.pensive.feature.intro.presentation.OnboardingModel
 
 class OnBoardingViewModel : ViewModel() {
     val onboardingData = listOf(

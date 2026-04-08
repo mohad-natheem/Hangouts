@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cloud.pensive.hangouts.presentation.utils.WindowInsetsHelper.cameraInsetPadding
+import cloud.pensive.core.presentation.utils.utils.WindowInsetsHelper.cameraInsetPadding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
