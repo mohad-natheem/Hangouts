@@ -10,7 +10,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.run {
             pluginManager.run {
-                apply("runtracker.android.library")
+                apply("hangouts.android.library")
                 apply(libs.findPlugin("compose-compiler").get().get().pluginId)
             }
 

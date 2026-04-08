@@ -96,4 +96,23 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    implementation(projects.core.presentation)
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
+    implementation(projects.core.database)
+
+    implementation(projects.auth.data)
+    implementation(projects.auth.domain)
+    implementation(projects.auth.presentation)
+
+    implementation(projects.feature.intro.domain)
+    implementation(projects.feature.intro.data)
+    implementation(projects.feature.intro.presentation)
+
+    implementation(projects.feature.map.presentation)
+    implementation(projects.feature.map.data)
+    implementation(projects.feature.map.presentation)
+
 }
