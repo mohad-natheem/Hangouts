@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,3 +22,16 @@ dependencyResolutionManagement {
 
 rootProject.name = "Hangouts"
 include(":app")
+include(":feature:intro:data")
+include(":feature:intro:domain")
+include(":feature:intro:presentation")
+include(":feature:map:data")
+include(":feature:map:presentation")
+include(":feature:map:domain")
+include(":auth:data")
+include(":auth:presentation")
+include(":auth:domain")
+include(":core:data")
+include(":core:database")
+include(":core:presentation")
+include(":core:domain")

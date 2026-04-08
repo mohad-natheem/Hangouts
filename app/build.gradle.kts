@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.secrets.gradle.plugin)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+//    alias(libs.plugins.runtracker.android.application.compose)
 }
 
 android {
@@ -56,9 +57,9 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.maps.compose)
+    implementation(libs.google.maps.android.compose)
     implementation(libs.play.services.maps)
-    implementation(libs.play.services.location)
+    implementation(libs.google.android.gms.play.services.location)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp)
 
