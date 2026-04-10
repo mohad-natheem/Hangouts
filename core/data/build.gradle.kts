@@ -10,6 +10,10 @@ android {
 dependencies {
     implementation(libs.timber)
     implementation(libs.bundles.koin)
+    
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+
 
     implementation(projects.core.domain)
     implementation(projects.core.database)

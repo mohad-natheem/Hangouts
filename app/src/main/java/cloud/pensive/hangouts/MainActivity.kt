@@ -9,11 +9,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
-import cloud.pensive.hangouts.data.dataStore.DataStoreManager
+import cloud.pensive.core.data.datastore.DataStoreManager
 import cloud.pensive.hangouts.presentation.main.MainScreen
 import cloud.pensive.hangouts.ui.theme.HangoutsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HangoutsTheme {
                 val context = LocalContext.current
-                val dataStoreManager = DataStoreManager(context)
+                val dataStoreManager: DataStoreManager by inject()
                 val isOnBoardCompleted =
                     dataStoreManager.onboardingCompleted.collectAsState(false)
 

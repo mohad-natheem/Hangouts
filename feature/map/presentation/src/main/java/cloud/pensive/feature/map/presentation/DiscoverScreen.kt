@@ -1,4 +1,4 @@
-package cloud.pensive.hangouts.presentation.discover
+package cloud.pensive.feature.map.presentation
 
 import android.Manifest
 import android.app.Activity
@@ -37,13 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cloud.pensive.hangouts.R
-import cloud.pensive.hangouts.presentation.components.CommonDropDown
-import cloud.pensive.hangouts.presentation.components.EnableLocationDialog
-import cloud.pensive.hangouts.presentation.components.EnableLocationInSettingsDialog
-import cloud.pensive.hangouts.presentation.components.TextFieldData
+import cloud.pensive.core.presentation.commonComposables.CommonDropDown
+import cloud.pensive.core.presentation.commonComposables.EnableLocationDialog
+import cloud.pensive.core.presentation.commonComposables.EnableLocationInSettingsDialog
+import cloud.pensive.core.presentation.commonComposables.TextFieldData
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.endPadding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -55,9 +53,8 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import org.koin.androidx.compose.koinViewModel
 
 data class MapLocation(
     val name: String,
@@ -75,7 +72,7 @@ val predefinedLocations = listOf(
 @Composable
 fun DiscoverScreen(
     modifier: Modifier = Modifier,
-    viewModel: DiscoverViewModel = hiltViewModel<DiscoverViewModel>()
+    viewModel: DiscoverViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -143,14 +140,11 @@ fun DiscoverScreen(
 //    }
 
 
-
     // Animate camera when location selection changes
     LaunchedEffect(Unit) {
-        Timber.tag("natheem").i("Starting to collect UI events")
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is DiscoverViewModel.DiscoverUiEvent.AnimateCameraPosition -> {
-                    Timber.tag("natheem").i("Received UI event: $event")
                     cameraPositionState.animate(
                         update = CameraUpdateFactory.newLatLngZoom(
                             event.latLng,
@@ -333,10 +327,10 @@ fun DiscoverScreen(
                             interactionSource = interactionSource,
                             indication = null
                         ) {
-                            viewModel.searchNearby(
-                                uiState.userLatLng?.latitude!!,
-                                uiState.userLatLng?.longitude!!
-                            )
+//                            viewModel.searchNearby(
+//                                uiState.userLatLng?.latitude!!,
+//                                uiState.userLatLng?.longitude!!
+//                            )
                         },
                 ) {
                     Icon(

@@ -54,6 +54,10 @@ dependencies {
     //Timber
     implementation(libs.timber)
 
+    //koin
+    implementation(libs.bundles.koin)
+
+
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)

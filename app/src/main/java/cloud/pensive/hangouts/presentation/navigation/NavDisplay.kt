@@ -8,7 +8,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import cloud.pensive.hangouts.presentation.discover.DiscoverScreen
+import cloud.pensive.feature.map.presentation.DiscoverScreen
 import cloud.pensive.hangouts.presentation.main.DetailsScreen
 import cloud.pensive.hangouts.presentation.main.ProfileScreen
 import cloud.pensive.hangouts.presentation.main.SettingsScreen

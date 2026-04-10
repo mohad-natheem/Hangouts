@@ -8,6 +8,12 @@ android {
 }
 
 dependencies {
+    implementation(libs.google.maps.android.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.google.android.gms.play.services.location)
+    implementation(libs.androidx.material.icons.extended)
+
+
     implementation(projects.core.domain)
     implementation(projects.feature.map.domain)
     implementation(projects.core.presentation)

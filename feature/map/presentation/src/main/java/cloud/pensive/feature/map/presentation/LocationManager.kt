@@ -1,4 +1,4 @@
-package cloud.pensive.hangouts.presentation.discover
+package cloud.pensive.feature.map.presentation
 
 import android.Manifest
 import android.annotation.SuppressLint

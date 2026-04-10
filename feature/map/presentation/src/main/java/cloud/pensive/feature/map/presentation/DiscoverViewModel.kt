@@ -1,32 +1,22 @@
-package cloud.pensive.hangouts.presentation.discover
+package cloud.pensive.feature.map.presentation
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.Stable
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import cloud.pensive.hangouts.MainActivity
-import cloud.pensive.hangouts.data.remote.OverpassApi
-import cloud.pensive.hangouts.domain.model.NearbyPlace
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import javax.inject.Inject
 
-@HiltViewModel
-class DiscoverViewModel @Inject constructor(
+class DiscoverViewModel(
     private val locationManager: LocationManager
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(DiscoverUiState())
@@ -194,63 +184,63 @@ class DiscoverViewModel @Inject constructor(
         }
     }
 
-    private val api = OverpassApi.create()
-    suspend fun searchNearbyPlaces(
-        lat: Double,
-        lon: Double,
-        radiusMeters: Int = 1000,
-        keyword: String = ""        // e.g. "restaurant", "hospital", or "" for all
-    ): List<NearbyPlace> {
-        val filter = if (keyword.isNotBlank()) "[\"name\"~\"$keyword\",i]" else ""
-        val query = """
-              [out:json][timeout:90];
-              (
-                node(around:$radiusMeters,$lat,$lon)[name]$filter;
-                way(around:$radiusMeters,$lat,$lon)[name]$filter;
-              );
-              out center 50;
-          """.trimIndent()
-        return api.searchNearby(query).elements
-            .filter { it.lat != null && it.lon != null }
-            .map { el ->
-                NearbyPlace(
-                    id = el.id,
-                    name = el.tags?.get("name") ?: "Unknown",
-                    lat = el.lat!!,
-                    lon = el.lon!!,
-                    type = el.tags?.get("amenity")
-                        ?: el.tags?.get("shop")
-                        ?: el.tags?.get("tourism")
-                        ?: "place"
-                )
-            }
-    }
-
-    private val _nearbyPlaces = MutableStateFlow<List<NearbyPlace>>(emptyList())
-    val nearbyPlaces = _nearbyPlaces.asStateFlow()
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading = _isLoading.asStateFlow()
-    private val _error = MutableStateFlow<String?>(null)
-    val error = _error.asStateFlow()
-    fun searchNearby(lat: Double, lon: Double, keyword: String = "") {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _error.value = null
-            try {
-                _nearbyPlaces.value = searchNearbyPlaces(lat, lon, keyword = keyword)
-                Timber.tag("natheem")
-                    .i("Found ${_nearbyPlaces.value.size} places near ($lat, $lon) with keyword '$keyword'")
-            } catch (e: Exception) {
-                _error.value = "Search failed: ${e.message}"
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
-
-    fun clearPlaces() {
-        _nearbyPlaces.value = emptyList()
-    }
+//    private val api = OverpassApi.create()
+//    suspend fun searchNearbyPlaces(
+//        lat: Double,
+//        lon: Double,
+//        radiusMeters: Int = 1000,
+//        keyword: String = ""        // e.g. "restaurant", "hospital", or "" for all
+//    ): List<NearbyPlace> {
+//        val filter = if (keyword.isNotBlank()) "[\"name\"~\"$keyword\",i]" else ""
+//        val query = """
+//              [out:json][timeout:90];
+//              (
+//                node(around:$radiusMeters,$lat,$lon)[name]$filter;
+//                way(around:$radiusMeters,$lat,$lon)[name]$filter;
+//              );
+//              out center 50;
+//          """.trimIndent()
+//        return api.searchNearby(query).elements
+//            .filter { it.lat != null && it.lon != null }
+//            .map { el ->
+//                NearbyPlace(
+//                    id = el.id,
+//                    name = el.tags?.get("name") ?: "Unknown",
+//                    lat = el.lat!!,
+//                    lon = el.lon!!,
+//                    type = el.tags?.get("amenity")
+//                        ?: el.tags?.get("shop")
+//                        ?: el.tags?.get("tourism")
+//                        ?: "place"
+//                )
+//            }
+//    }
+//
+//    private val _nearbyPlaces = MutableStateFlow<List<NearbyPlace>>(emptyList())
+//    val nearbyPlaces = _nearbyPlaces.asStateFlow()
+//    private val _isLoading = MutableStateFlow(false)
+//    val isLoading = _isLoading.asStateFlow()
+//    private val _error = MutableStateFlow<String?>(null)
+//    val error = _error.asStateFlow()
+//    fun searchNearby(lat: Double, lon: Double, keyword: String = "") {
+//        viewModelScope.launch {
+//            _isLoading.value = true
+//            _error.value = null
+//            try {
+//                _nearbyPlaces.value = searchNearbyPlaces(lat, lon, keyword = keyword)
+//                Timber.tag("natheem")
+//                    .i("Found ${_nearbyPlaces.value.size} places near ($lat, $lon) with keyword '$keyword'")
+//            } catch (e: Exception) {
+//                _error.value = "Search failed: ${e.message}"
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
+//
+//    fun clearPlaces() {
+//        _nearbyPlaces.value = emptyList()
+//    }
 
     @Stable
     data class DiscoverUiState(
