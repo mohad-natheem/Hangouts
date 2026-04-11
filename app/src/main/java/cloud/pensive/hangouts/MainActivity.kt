@@ -10,8 +10,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.lifecycleScope
 import cloud.pensive.core.data.datastore.DataStoreManager
-import cloud.pensive.hangouts.presentation.main.MainScreen
-import cloud.pensive.hangouts.ui.theme.HangoutsTheme
+import cloud.pensive.core.presentation.theme.HangoutsTheme
+import cloud.pensive.hangouts.main.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject

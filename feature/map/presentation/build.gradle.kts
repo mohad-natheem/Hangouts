@@ -13,8 +13,13 @@ dependencies {
     implementation(libs.google.android.gms.play.services.location)
     implementation(libs.androidx.material.icons.extended)
 
-
     implementation(projects.core.domain)
-    implementation(projects.feature.map.domain)
     implementation(projects.core.presentation)
+    implementation(projects.feature.map.domain)
+    implementation(projects.feature.map.data)
+    
+    // Koin for dependency injection
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }

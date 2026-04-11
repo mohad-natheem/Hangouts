@@ -2,7 +2,7 @@ package cloud.pensive.hangouts
 
 import android.app.Application
 import cloud.pensive.core.data.di.coreDataModule
-import cloud.pensive.feature.map.presentation.di.featureMapViewmodelModule
+import cloud.pensive.feature.map.presentation.di.featureMapPresentationModule
 import dagger.hilt.android.HiltAndroidApp
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,9 +23,8 @@ class HangoutsApplication : Application() {
             androidContext(this@HangoutsApplication)
             modules(
                 coreDataModule,
-                featureMapViewmodelModule,
-
-                )
+                featureMapPresentationModule,
+            )
         }
     }
 }
