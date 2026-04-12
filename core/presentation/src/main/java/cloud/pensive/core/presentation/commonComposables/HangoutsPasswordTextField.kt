@@ -154,7 +154,7 @@ fun HangoutsPasswordTextField(
 
 @Preview
 @Composable
-private fun RuniqueTextFieldPreview() {
+private fun HangoutsTextFieldPreview() {
     HangoutsTheme {
         HangoutsPasswordTextField(
             state = rememberTextFieldState(),

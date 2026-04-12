@@ -13,11 +13,11 @@ sealed interface BottomNavKey : NavKey {
         override val label: String = "Home"
     }
 
-    @Serializable
-    data object Search : BottomNavKey {
-        override val icon: Int = R.drawable.ic_search
-        override val label: String = "Profile"
-    }
+//    @Serializable
+//    data object Search : BottomNavKey {
+//        override val icon: Int = R.drawable.ic_search
+//        override val label: String = "Profile"
+//    }
 
     @Serializable
     data object Bookings : BottomNavKey {
@@ -26,7 +26,7 @@ sealed interface BottomNavKey : NavKey {
     }
 
     companion object {
-        val items = listOf(Discover, Search, Bookings)
+        val items = listOf(Discover, Bookings)
 
         val stateSaver = Saver<BottomNavKey, String>(
             save = { it::class.qualifiedName },

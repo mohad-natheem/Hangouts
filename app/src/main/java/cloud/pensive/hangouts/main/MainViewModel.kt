@@ -12,8 +12,6 @@ class MainViewModel : ViewModel() {
     private val _discoverStack = MutableStateFlow(listOf<NavKey>(BottomNavKey.Discover))
     val discoverBackStack = _discoverStack.asStateFlow()
 
-    private val _searchStack = MutableStateFlow(listOf<NavKey>(BottomNavKey.Search))
-    val searchBackStack = _searchStack.asStateFlow()
 
     private val _bookingsBackStack = MutableStateFlow(listOf<NavKey>(BottomNavKey.Bookings))
     val bookingsBackStack = _bookingsBackStack.asStateFlow()
@@ -32,12 +30,6 @@ class MainViewModel : ViewModel() {
         when (currentKey.value) {
             BottomNavKey.Discover -> {
                 _discoverStack.update {
-                    it + navKey
-                }
-            }
-
-            BottomNavKey.Search -> {
-                _searchStack.update {
                     it + navKey
                 }
             }
@@ -62,15 +54,6 @@ class MainViewModel : ViewModel() {
                 }
             }
 
-            BottomNavKey.Search -> {
-                _searchStack.update { stack ->
-                    if (stack.size > 1) {
-                        stack.dropLast(1)
-                    } else {
-                        stack
-                    }
-                }
-            }
 
             BottomNavKey.Bookings -> {
                 _bookingsBackStack.update { stack ->
@@ -92,11 +75,6 @@ class MainViewModel : ViewModel() {
                 }
             }
 
-            BottomNavKey.Search -> {
-                _searchStack.update {
-                    if (it.size > 1) listOf(BottomNavKey.Search) else it
-                }
-            }
 
             BottomNavKey.Bookings -> {
                 _bookingsBackStack.update {
@@ -109,18 +87,14 @@ class MainViewModel : ViewModel() {
     val onHandleBackPressed: () -> Unit = {
         onBackPressed(
             currentBottomKey = currentKey.value,
-            profileBackStackSize = searchBackStack.value.size,
-            settingsBackStackSize = bookingsBackStack.value.size,
+            bookingsBackStackSize = bookingsBackStack.value.size,
             onSetHomeKey = {
                 updateCurrentKey(BottomNavKey.Discover)
             },
             onPopHomeBackStack = {
                 popBackStack(BottomNavKey.Discover)
             },
-            onPopProfileBackStack = {
-                popBackStack(BottomNavKey.Search)
-            },
-            onPopSettingsBackStack = {
+            onPopBookingsBackStack = {
                 popBackStack(BottomNavKey.Bookings)
             }
         )
@@ -128,29 +102,20 @@ class MainViewModel : ViewModel() {
 
     private fun onBackPressed(
         currentBottomKey: BottomNavKey,
-        profileBackStackSize: Int,
-        settingsBackStackSize: Int,
+        bookingsBackStackSize: Int,
         onSetHomeKey: () -> Unit,
         onPopHomeBackStack: () -> Unit,
-        onPopProfileBackStack: () -> Unit,
-        onPopSettingsBackStack: () -> Unit
+        onPopBookingsBackStack: () -> Unit
     ) {
         when (currentBottomKey) {
             BottomNavKey.Discover -> {
                 onPopHomeBackStack()
             }
 
-            BottomNavKey.Search -> {
-                if (profileBackStackSize > 1) {
-                    onPopProfileBackStack()
-                } else {
-                    onSetHomeKey()
-                }
-            }
 
             BottomNavKey.Bookings -> {
-                if (settingsBackStackSize > 1) {
-                    onPopSettingsBackStack()
+                if (bookingsBackStackSize > 1) {
+                    onPopBookingsBackStack()
                 } else {
                     onSetHomeKey()
                 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import cloud.pensive.core.presentation.commonComposables.glassEffect
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.horizontalPadding
 import cloud.pensive.core.presentation.utils.utils.startPadding
@@ -36,9 +37,12 @@ fun BottomNavigationBar(
             .bottomPadding(30.dp)
             .startPadding(24.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f))
-            .horizontalPadding(28.dp)
-            .verticalPadding(18.dp)
+            .glassEffect(
+                backgroundColor = MaterialTheme.colorScheme.surface,
+                shape = CircleShape
+            )
+            .horizontalPadding(32.dp)
+            .verticalPadding(20.dp)
     ) {
         Row(
             modifier = Modifier,
@@ -47,14 +51,14 @@ fun BottomNavigationBar(
             navigationScreens.forEach { navScreen ->
                 Icon(
                     modifier = Modifier
-                        .size(24.dp)
+                        .size(30.dp)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null
                         ) { onClick(navScreen) },
                     imageVector = ImageVector.vectorResource(navScreen.icon),
                     contentDescription = navScreen.label,
-                    tint = if (navScreen == selectedScreen) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = if (navScreen == selectedScreen) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

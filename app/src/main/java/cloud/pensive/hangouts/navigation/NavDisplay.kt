@@ -10,8 +10,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import cloud.pensive.feature.map.presentation.DiscoverScreenRoot
 import cloud.pensive.hangouts.main.DetailsScreen
-import cloud.pensive.hangouts.main.ProfileScreen
-import cloud.pensive.hangouts.main.SettingsScreen
+import cloud.pensive.hangouts.main.BookingsScreen
 
 @Composable
 fun CustomNavDisplay(
@@ -31,14 +30,9 @@ fun CustomNavDisplay(
             entry<BottomNavKey.Discover> {
                 DiscoverScreenRoot()
             }
-            entry<BottomNavKey.Search> {
-                ProfileScreen(
-                    onNavigateToDetails = {
-                        addToBackStack(it)
-                    })
-            }
+
             entry<BottomNavKey.Bookings> {
-                SettingsScreen(
+                BookingsScreen(
                     onNavigateToDetails = {
                         addToBackStack(it)
                     })

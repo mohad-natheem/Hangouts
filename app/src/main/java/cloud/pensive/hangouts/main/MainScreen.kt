@@ -23,14 +23,12 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val mainViewModel = viewModel<MainViewModel>()
 
     val discoverBackStack = mainViewModel.discoverBackStack.collectAsStateWithLifecycle()
-    val searchBackStack = mainViewModel.searchBackStack.collectAsStateWithLifecycle()
     val bookingsBackStack = mainViewModel.bookingsBackStack.collectAsStateWithLifecycle()
 
 
     val currentKey = mainViewModel.currentKey.collectAsStateWithLifecycle()
     val currentBackStack = when (currentKey.value) {
         BottomNavKey.Discover -> discoverBackStack.value
-        BottomNavKey.Search -> searchBackStack.value
         BottomNavKey.Bookings -> bookingsBackStack.value
     }
 
@@ -50,7 +48,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
                                 BottomNavKey.Discover
                             )
 
-                            BottomNavKey.Search -> mainViewModel.resetBackStack(BottomNavKey.Search)
                             BottomNavKey.Bookings -> mainViewModel.resetBackStack(
                                 BottomNavKey.Bookings
                             )
@@ -88,32 +85,13 @@ fun DetailsScreen(key: MainNavKey.Details, onBackPressed: () -> Unit) {
 }
 
 @Composable
-fun SettingsScreen(onNavigateToDetails: (MainNavKey.Details) -> Unit) {
+fun BookingsScreen(onNavigateToDetails: (MainNavKey.Details) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column() {
-            Text("SettingsScreen ")
-            Button(
-                onClick = {
-                    onNavigateToDetails(MainNavKey.Details(originScreen = "Settings"))
-                }
-            ) {
-                Text("Details Screen")
-            }
-        }
-    }
-}
-
-@Composable
-fun ProfileScreen(onNavigateToDetails: (MainNavKey.Details) -> Unit) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column() {
-            Text("ProfileScreen")
+            Text("Bookings Screen ")
             Button(
                 onClick = {
                     onNavigateToDetails(MainNavKey.Details(originScreen = "Settings"))

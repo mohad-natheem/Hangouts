@@ -7,7 +7,6 @@ import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,10 +36,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cloud.pensive.core.presentation.ArrowDownIcon
+import cloud.pensive.core.presentation.ArrowUpIcon
+import cloud.pensive.core.presentation.MapSearchIcon
 import cloud.pensive.core.presentation.commonComposables.CommonDropDown
 import cloud.pensive.core.presentation.commonComposables.EnableLocationDialog
 import cloud.pensive.core.presentation.commonComposables.EnableLocationInSettingsDialog
 import cloud.pensive.core.presentation.commonComposables.TextFieldData
+import cloud.pensive.core.presentation.commonComposables.applyGradientBackground
+import cloud.pensive.core.presentation.commonComposables.applyRadialGradientBackground
+import cloud.pensive.core.presentation.commonComposables.glassEffect
 import cloud.pensive.core.presentation.utils.utils.ObserveAsEvents
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.endPadding
@@ -58,6 +63,7 @@ import cloud.pensive.feature.map.presentation.viewmodel.DiscoverViewModel
 import cloud.pensive.feature.map.presentation.model.DiscoverUiAction
 import cloud.pensive.feature.map.presentation.model.DiscoverUiEvent
 import cloud.pensive.feature.map.presentation.model.DiscoverUiState
+import com.google.maps.android.compose.MapType
 
 @Composable
 fun DiscoverScreenRoot(
@@ -129,7 +135,6 @@ fun DiscoverScreenRoot(
         cameraPositionState = cameraPositionState,
         markerState = markerState,
         onUiAction = viewModel::onAction,
-        onUpdateLocationInput = viewModel::updateLocationInput,
         onOpenSettingsClick = {
             val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                 data = Uri.fromParts("package", context.packageName, null)
@@ -162,7 +167,6 @@ fun DiscoverScreen(
     cameraPositionState: com.google.maps.android.compose.CameraPositionState,
     markerState: MarkerState,
     onUiAction: (DiscoverUiAction) -> Unit,
-    onUpdateLocationInput: (String) -> Unit,
     onOpenSettingsClick: () -> Unit,
     onActivityFinish: () -> Unit,
 ) {
@@ -190,7 +194,9 @@ fun DiscoverScreen(
             modifier = Modifier
                 .fillMaxSize(),
             cameraPositionState = cameraPositionState,
-            properties = MapProperties(),
+            properties = MapProperties(
+                mapType = MapType.SATELLITE
+            ),
             uiSettings = MapUiSettings(
                 compassEnabled = true,
                 zoomControlsEnabled = false,
@@ -219,12 +225,10 @@ fun DiscoverScreen(
                 onUiAction(DiscoverUiAction.OnDropdownExpanded(expanded))
             },
             textFieldData = TextFieldData(
-                textFieldValue = uiState.locationInput ?: "",
-                onTextFieldValueChange = onUpdateLocationInput,
-                trailingIcon = if (uiState.isLocationDropdownExpanded) R.drawable.ic_arrow_up else R.drawable.ic_arrow_down,
-                leadingIcon = R.drawable.ic_map_search,
+                textFieldValue = uiState.locationInput,
+                trailingIcon = if (uiState.isLocationDropdownExpanded) ArrowUpIcon else ArrowDownIcon,
+                leadingIcon = MapSearchIcon,
                 textFieldPlaceHolder = "Search Area...",
-                supportingText = "Select a location to explore"
             )
         )
 
@@ -278,7 +282,10 @@ fun DiscoverScreen(
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f))
+                        .glassEffect(
+                            shape = CircleShape,
+                            backgroundColor = MaterialTheme.colorScheme.surface,
+                        )
                         .padding(18.dp)
                         .clickable(
                             interactionSource = interactionSource,
@@ -290,27 +297,29 @@ fun DiscoverScreen(
                     Icon(
                         modifier = Modifier.size(24.dp),
                         imageVector = ImageVector.vectorResource(R.drawable.ic_my_location),
-                        contentDescription = "My Location"
+                        contentDescription = "My Location",
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
                 // Add Location FAB (placeholder)
                 Box(
                     modifier = Modifier
+                        .applyRadialGradientBackground(shape = CircleShape)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.8f))
-                        .padding(18.dp)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null
                         ) {
                             // TODO: Implement add location functionality
-                        },
+                        }
+                        .padding(18.dp),
                 ) {
                     Icon(
                         modifier = Modifier.size(24.dp),
-                        imageVector = Icons.Filled.AddCircle,
-                        contentDescription = "Add Location"
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add Location",
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

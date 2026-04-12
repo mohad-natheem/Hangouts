@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cloud.pensive.core.presentation.CheckIcon
 import cloud.pensive.core.presentation.EmailIcon
+import cloud.pensive.core.presentation.theme.HangoutsTheme
+import cloud.pensive.core.presentation.utils.utils.verticalPadding
 import kotlin.text.isEmpty
 
 @Composable
@@ -97,15 +99,11 @@ fun HangoutsTextField(
             lineLimits = TextFieldLineLimits.SingleLine,
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
             modifier = Modifier
-                .clip(RoundedCornerShape(16.dp))
-                .background(
-                    if (isFocused) {
-                        MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.05f
-                        )
-                    } else {
-                        MaterialTheme.colorScheme.surface
-                    }
+                .glassEffect(
+                    backgroundColor = MaterialTheme.colorScheme.surface.copy(
+                        alpha = if (isFocused) 0.8f else 0.7f
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .border(
                     width = 1.dp,
@@ -123,6 +121,7 @@ fun HangoutsTextField(
             decorator = { innerBox ->
                 Row(
                     modifier = Modifier
+                        .verticalPadding(6.dp)
                         .fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -167,15 +166,17 @@ fun HangoutsTextField(
 
 @Preview
 @Composable
-private fun RuniqueTextFieldPreview() {
-    HangoutsTextField(
-        state = rememberTextFieldState(),
-        startIcon = EmailIcon,
-        endIcon = CheckIcon,
-        hint = "example@test.com",
-        title = "Email",
-        additionalInfo = "Must be a valid email",
-        modifier = Modifier
-            .fillMaxWidth()
-    )
+private fun HangoutsTextFieldPreview() {
+    HangoutsTheme {
+        HangoutsTextField(
+            state = rememberTextFieldState(),
+            startIcon = EmailIcon,
+            endIcon = CheckIcon,
+            hint = "example@test.com",
+            title = "Email",
+            additionalInfo = "Must be a valid email",
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+    }
 }

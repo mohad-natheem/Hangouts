@@ -1,6 +1,7 @@
 package cloud.pensive.feature.map.presentation.viewmodel
 
 import android.app.Activity
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.core.domain.util.Result
@@ -101,7 +102,7 @@ class DiscoverViewModel(
                     it.copy(
                         selectedLocation = action.location,
                         isLocationDropdownExpanded = false,
-                        locationInput = action.location.name
+                        locationInput = TextFieldState(initialText = action.location.name)
                     )
                 }
                 sendUiEvent(
@@ -140,14 +141,6 @@ class DiscoverViewModel(
         }
     }
 
-    /**
-     * Updates location input text in dropdown
-     */
-    fun updateLocationInput(input: String) {
-        _uiState.update {
-            it.copy(locationInput = input)
-        }
-    }
 
     /**
      * Sends a one-time UI event

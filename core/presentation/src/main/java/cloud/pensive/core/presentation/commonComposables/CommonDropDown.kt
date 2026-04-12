@@ -1,21 +1,26 @@
 package cloud.pensive.core.presentation.commonComposables
 
-import androidx.annotation.DrawableRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.LocalTonalElevationEnabled
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cloud.pensive.core.presentation.utils.utils.WindowInsetsHelper.cameraInsetPadding
 
@@ -39,14 +44,14 @@ fun <T> CommonDropDown(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        CommonOutlinedTextField(
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable, true),
-            inputValue = textFieldData.textFieldValue,
-            onValueChange = textFieldData.onTextFieldValueChange,
-            trailingIcon = textFieldData.trailingIcon,
-            leadingIcon = textFieldData.leadingIcon,
-            placeHolder = textFieldData.textFieldPlaceHolder,
-            supportingText = textFieldData.supportingText
+
+        HangoutsTextField(
+            modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable, true),
+            state = textFieldData.textFieldValue,
+            startIcon = textFieldData.leadingIcon,
+            endIcon = textFieldData.trailingIcon,
+            hint = textFieldData.textFieldPlaceHolder,
+            title = null
         )
 
         CompositionLocalProvider(
@@ -54,12 +59,17 @@ fun <T> CommonDropDown(
         ) {
 
             ExposedDropdownMenu(
-                modifier = Modifier,
+                modifier = Modifier
+                    .offset(y = 8.dp)
+                    .glassEffect(
+                        backgroundColor = MaterialTheme.colorScheme.surface,
+                        shape = RoundedCornerShape(12.dp)
+                    ),
                 expanded = isDropDownExpanded,
                 onDismissRequest = {
                     onExpandedChange(false)
                 },
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = Color.Transparent,
                 shape = RoundedCornerShape(12.dp),
             ) {
                 dropDownMenuItems.forEach { item ->
@@ -86,10 +96,8 @@ fun <T> CommonDropDown(
 
 
 data class TextFieldData(
-    val textFieldValue: String,
-    val onTextFieldValueChange: (String) -> Unit,
-    @DrawableRes val trailingIcon: Int,
-    @DrawableRes val leadingIcon: Int,
-    val textFieldPlaceHolder: String,
-    val supportingText: String
+    val textFieldValue: TextFieldState,
+    val trailingIcon: ImageVector?,
+    val leadingIcon: ImageVector?,
+    val textFieldPlaceHolder: String
 )

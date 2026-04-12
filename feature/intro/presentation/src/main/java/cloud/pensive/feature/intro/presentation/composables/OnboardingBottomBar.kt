@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import cloud.pensive.core.presentation.commonComposables.HangoutsActionButton
+import cloud.pensive.core.presentation.commonComposables.HangoutsActionButtonVariant
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.horizontalPadding
 
@@ -49,27 +51,21 @@ fun OnboardingBottomBar(
                         modifier = Modifier
                             .size(8.dp)
                             .clip(CircleShape)
-                            .background(if (currentPage == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary)
+                            .background(
+                                if (currentPage == index) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                                    alpha = 0.5f
+                                )
+                            )
                     )
                 }
             }
         }
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(),
+
+        HangoutsActionButton(
+            text = if (isLastPage) "Get Started" else "Next",
             onClick = onNextClick,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            )
-        ) {
-            Text(
-                text = if (isLastPage) "Get Started" else "Next",
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
+            variant = HangoutsActionButtonVariant.PRIMARY,
+        )
 
     }
 

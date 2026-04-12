@@ -62,7 +62,7 @@ fun OnboardingItem(
                 modifier = Modifier.size(80.dp),
                 imageVector = ImageVector.vectorResource(page.imageRes),
                 contentDescription = page.title,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onBackground
 
             )
             Spacer(Modifier.height(16.dp))
@@ -72,14 +72,14 @@ fun OnboardingItem(
                     fontWeight = FontWeight.SemiBold
                 ),
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = page.description,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.secondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

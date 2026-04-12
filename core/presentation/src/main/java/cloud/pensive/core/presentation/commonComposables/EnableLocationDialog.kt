@@ -38,7 +38,7 @@ fun EnableLocationDialog(
         onDismissRequest = onDismissRequest
     ) {
         Surface(
-            modifier = Modifier,
+            modifier = Modifier.glassEffect(),
             color = Color.Black,
             shape = MaterialTheme.shapes.medium,
         ) {

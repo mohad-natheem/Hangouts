@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.BasicAlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,8 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.pensive.core.presentation.R
+import cloud.pensive.core.presentation.theme.HangoutsTheme
 import cloud.pensive.core.presentation.utils.utils.horizontalPadding
 import cloud.pensive.core.presentation.utils.utils.topPadding
 import cloud.pensive.core.presentation.utils.utils.verticalPadding
@@ -37,9 +37,14 @@ fun EnableLocationInSettingsDialog(
         onDismissRequest = onDismissRequest
     ) {
         Surface(
-            modifier = Modifier,
-            color = Color.Black,
+            modifier = Modifier.glassEffect(
+                alpha = 0.7f,
+                backgroundColor = MaterialTheme.colorScheme.surface,
+                shape = MaterialTheme.shapes.medium,
+                borderColor = MaterialTheme.colorScheme.onSurface
+            ),
             shape = MaterialTheme.shapes.medium,
+            color = Color.Transparent
         ) {
             Column(
                 modifier = Modifier
@@ -60,36 +65,37 @@ fun EnableLocationInSettingsDialog(
                     modifier = Modifier.topPadding(12.dp),
                     text = "You have to enable location in settings to continue.",
                     style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .topPadding(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    onClick = onQuitClick
-                ) {
-                    Text(
-                        text = "Quit"
-                    )
-                }
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .topPadding(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    onClick = onOpenSettingsClick
-                ) {
-                    Text(
-                        text = "Open Settings"
-                    )
-                }
+                HangoutsActionButton(
+                    modifier = Modifier.topPadding(16.dp),
+                    text = "Open Settings",
+                    onClick = onOpenSettingsClick,
+                    isLoading = false
+                )
+                HangoutsOutlinedActionButton(
+                    modifier = Modifier.topPadding(12.dp),
+                    text = "Quit",
+                    onClick = onQuitClick,
+                    isLoading = false
+                )
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+private fun EnableLocationInSettingsDialogPreview() {
+    HangoutsTheme {
+    EnableLocationInSettingsDialog(
+        onDismissRequest = {},
+        onQuitClick = {},
+        onOpenSettingsClick = {}
+    )
+    }
+
 }

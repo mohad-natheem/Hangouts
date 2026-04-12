@@ -13,6 +13,10 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.ui.graphics)
+
+    // Required for Compose preview rendering in Android Studio
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
     implementation(projects.core.domain)
 }

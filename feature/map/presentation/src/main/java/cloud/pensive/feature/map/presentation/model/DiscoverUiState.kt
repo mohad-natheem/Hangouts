@@ -1,5 +1,6 @@
 package cloud.pensive.feature.map.presentation.model
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.Stable
 import com.google.android.gms.maps.model.LatLng
 
@@ -15,7 +16,7 @@ data class DiscoverUiState(
         latLng = LatLng(40.7128, -74.0060)
     ),
     val isLocationDropdownExpanded: Boolean = false,
-    val locationInput: String? = null,
+    val locationInput: TextFieldState = TextFieldState(),
 
     // User's current location
     val userLatLng: LatLng? = null,

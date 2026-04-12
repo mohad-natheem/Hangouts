@@ -95,3 +95,15 @@ val StartIcon: ImageVector
 val StopIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.stop)
+
+val MapSearchIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_map_search)
+
+val ArrowDownIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_arrow_down)
+
+val ArrowUpIcon: ImageVector
+    @Composable
+    get() = ImageVector.vectorResource(id = R.drawable.ic_arrow_up)
