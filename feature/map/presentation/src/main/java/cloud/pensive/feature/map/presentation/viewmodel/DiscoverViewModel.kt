@@ -19,6 +19,7 @@ import cloud.pensive.feature.map.domain.util.LocationError
 import cloud.pensive.feature.map.presentation.model.DiscoverUiState
 import cloud.pensive.feature.map.presentation.model.DiscoverUiAction
 import cloud.pensive.feature.map.presentation.model.DiscoverUiEvent
+import cloud.pensive.feature.map.presentation.model.DiscoverUiEvent.*
 import cloud.pensive.feature.map.presentation.model.toMapLocation
 import cloud.pensive.feature.map.presentation.util.PermissionRationaleChecker
 
@@ -106,7 +107,7 @@ class DiscoverViewModel(
                     )
                 }
                 sendUiEvent(
-                    DiscoverUiEvent.AnimateCameraPosition(
+                    AnimateCameraPosition(
                         action.location.latLng,
                         action.location.zoom
                     )
@@ -137,6 +138,14 @@ class DiscoverViewModel(
 
             is DiscoverUiAction.OnRequestLocationPermissionClicked -> {
                 requestLocationPermission(action.isFirstTime, action.activity)
+            }
+
+            is DiscoverUiAction.OnCreateEventFABClicked -> {
+                _uiState.update {
+                    it.copy(
+                        showCreateEventBottomSheet = action.shouldShow
+                    )
+                }
             }
         }
     }

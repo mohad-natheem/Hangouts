@@ -44,12 +44,10 @@ import cloud.pensive.core.presentation.utils.utils.verticalPadding
 import kotlin.text.isEmpty
 
 @Composable
-fun HangoutsTextField(
+fun HangoutsTextArea(
     state: TextFieldState,
-    startIcon: ImageVector? = null,
-    endIcon: ImageVector? = null,
     hint: String,
-    glassEffect: Boolean = false,
+    maxLines: Int = 5,
     title: String? = null,
     modifier: Modifier = Modifier,
     error: String? = null,
@@ -59,6 +57,7 @@ fun HangoutsTextField(
     var isFocused by remember {
         mutableStateOf(false)
     }
+    val lineHeight = 20.sp
     Column(
         modifier = modifier
     ) {
@@ -97,23 +96,16 @@ fun HangoutsTextField(
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType
             ),
-            lineLimits = TextFieldLineLimits.SingleLine,
+            lineLimits = TextFieldLineLimits.MultiLine(
+                maxHeightInLines = 5
+            ),
             cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
             modifier = Modifier
-                .then(
-                    if (glassEffect) {
-                        Modifier.glassEffect(
-                            backgroundColor = MaterialTheme.colorScheme.surfaceContainer.copy(
-                                alpha = if (isFocused) 0.8f else 0.7f
-                            ),
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                    } else {
-                        Modifier.background(
-                            color = MaterialTheme.colorScheme.surfaceContainerLowest,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                    }
+                .glassEffect(
+                    backgroundColor = MaterialTheme.colorScheme.surface.copy(
+                        alpha = if (isFocused) 0.8f else 0.7f
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .border(
                     width = 1.dp,
@@ -132,20 +124,14 @@ fun HangoutsTextField(
                 Row(
                     modifier = Modifier
                         .verticalPadding(6.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                        .fillMaxWidth()
+                        .height((lineHeight.value * maxLines).dp + 12.dp),
                 ) {
-                    if (startIcon != null) {
-                        Icon(
-                            imageVector = startIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Spacer(modifier = Modifier.width(16.dp))
-                    }
+
                     Box(
                         modifier = Modifier
-                            .weight(1f)
+                            .weight(1f),
+                        contentAlignment = Alignment.TopStart
                     ) {
                         if (state.text.isEmpty() && !isFocused) {
                             Text(
@@ -158,16 +144,6 @@ fun HangoutsTextField(
                         }
                         innerBox()
                     }
-                    if (endIcon != null) {
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            imageVector = endIcon,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                        )
-                    }
                 }
             }
         )
@@ -178,12 +154,10 @@ fun HangoutsTextField(
 @Composable
 private fun HangoutsTextFieldPreview() {
     HangoutsTheme {
-        HangoutsTextField(
+        HangoutsTextArea(
             state = rememberTextFieldState(),
-            startIcon = EmailIcon,
-            endIcon = CheckIcon,
-            hint = "example@test.com",
-            title = "Email",
+            hint = "Enter Description",
+            title = "Description",
             additionalInfo = "Must be a valid email",
             modifier = Modifier
                 .fillMaxWidth()

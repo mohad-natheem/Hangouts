@@ -38,6 +38,11 @@ sealed interface DiscoverUiAction {
      * User requested location permission
      * @param isFirstTime - true if first time requesting, false otherwise
      */
-    data class OnRequestLocationPermissionClicked(val isFirstTime: Boolean, val activity: Activity) : DiscoverUiAction
+    data class OnRequestLocationPermissionClicked(
+        val isFirstTime: Boolean,
+        val activity: Activity
+    ) : DiscoverUiAction
+
+    data class OnCreateEventFABClicked(val shouldShow: Boolean) : DiscoverUiAction
 }
 

@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cloud.pensive.core.presentation.commonComposables.glassEffect
+import cloud.pensive.core.presentation.theme.HangoutsTheme
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.horizontalPadding
 import cloud.pensive.core.presentation.utils.utils.startPadding
@@ -62,6 +64,18 @@ fun BottomNavigationBar(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BottomNavigationBarPreview() {
+    HangoutsTheme {
+    BottomNavigationBar(
+        navigationScreens = BottomNavKey.items,
+        selectedScreen = BottomNavKey.Discover,
+        onClick = {}
+    )
     }
 }
 

@@ -1,5 +1,9 @@
 package cloud.pensive.core.presentation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
@@ -11,6 +15,11 @@ val AnalyticsIcon: ImageVector
 val ArrowLeftIcon: ImageVector
     @Composable
     get() = ImageVector.vectorResource(id = R.drawable.arrow_left)
+
+val KeyboardRightArrowIcon: ImageVector
+    @Composable
+    get() = Icons.Filled.ChevronRight
+
 
 val ArrowRightIcon: ImageVector
     @Composable

@@ -51,6 +51,7 @@ fun <T> CommonDropDown(
             startIcon = textFieldData.leadingIcon,
             endIcon = textFieldData.trailingIcon,
             hint = textFieldData.textFieldPlaceHolder,
+            glassEffect = true,
             title = null
         )
 

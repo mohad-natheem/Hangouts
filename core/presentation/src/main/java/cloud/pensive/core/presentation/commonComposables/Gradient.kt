@@ -18,6 +18,14 @@ val appGradientBrush = Brush.linearGradient(
     ), start = Offset(0f, 0f), end = Offset(1000f, 1000f)
 )
 
+val appMediumGradientBrush = Brush.linearGradient(
+    colors = listOf(
+        Color(0xFFF2994A), // orange
+        Color(0xFFEB5757), // pink/red
+        Color(0xFFC0392B)
+    ), start = Offset(0f, 0f), end = Offset(500f, 500f)
+)
+
 // Radial gradient for circular buttons/FABs - shows all 3 colors
 val appRadialGradientBrush = Brush.radialGradient(
     colors = listOf(
@@ -27,6 +35,7 @@ val appRadialGradientBrush = Brush.radialGradient(
     ),
     radius = 500f // Large radius to show all colors
 )
+
 
 // Compact linear gradient for small composables
 val appCompactGradientBrush = Brush.linearGradient(
@@ -47,6 +56,16 @@ val appCompactGradientBrush = Brush.linearGradient(
 fun Modifier.applyGradientBackground(
     shape: Shape = RoundedCornerShape(24.dp),
     brush: Brush = appGradientBrush
+): Modifier {
+    return this.background(
+        brush = brush,
+        shape = shape
+    )
+}
+
+fun Modifier.applyMediumGradientBackground(
+    shape: Shape = RoundedCornerShape(24.dp),
+    brush: Brush = appMediumGradientBrush
 ): Modifier {
     return this.background(
         brush = brush,

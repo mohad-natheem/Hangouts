@@ -7,21 +7,27 @@ import android.net.Uri
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,22 +39,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cloud.pensive.core.presentation.ArrowDownIcon
 import cloud.pensive.core.presentation.ArrowUpIcon
+import cloud.pensive.core.presentation.EmailIcon
 import cloud.pensive.core.presentation.MapSearchIcon
 import cloud.pensive.core.presentation.commonComposables.CommonDropDown
 import cloud.pensive.core.presentation.commonComposables.EnableLocationDialog
 import cloud.pensive.core.presentation.commonComposables.EnableLocationInSettingsDialog
 import cloud.pensive.core.presentation.commonComposables.TextFieldData
-import cloud.pensive.core.presentation.commonComposables.applyGradientBackground
 import cloud.pensive.core.presentation.commonComposables.applyRadialGradientBackground
 import cloud.pensive.core.presentation.commonComposables.glassEffect
+import cloud.pensive.core.presentation.theme.HangoutsTheme
 import cloud.pensive.core.presentation.utils.utils.ObserveAsEvents
 import cloud.pensive.core.presentation.utils.utils.bottomPadding
 import cloud.pensive.core.presentation.utils.utils.endPadding
+import cloud.pensive.core.presentation.utils.utils.startPadding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.GoogleMap
@@ -63,6 +72,7 @@ import cloud.pensive.feature.map.presentation.viewmodel.DiscoverViewModel
 import cloud.pensive.feature.map.presentation.model.DiscoverUiAction
 import cloud.pensive.feature.map.presentation.model.DiscoverUiEvent
 import cloud.pensive.feature.map.presentation.model.DiscoverUiState
+import cloud.pensive.feature.map.presentation.model.MapLocation
 import com.google.maps.android.compose.MapType
 
 @Composable
@@ -103,7 +113,12 @@ fun DiscoverScreenRoot(
     val openSettingsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) {
-        viewModel.onAction(DiscoverUiAction.OnRequestLocationPermissionClicked(false, context as Activity))
+        viewModel.onAction(
+            DiscoverUiAction.OnRequestLocationPermissionClicked(
+                false,
+                context as Activity
+            )
+        )
     }
 
     // Observe ViewModel events
@@ -177,6 +192,17 @@ fun DiscoverScreen(
         modifier = modifier
             .fillMaxSize()
     ) {
+
+
+        if (uiState.showCreateEventBottomSheet) {
+            CreateEventBottomSheet(
+                createEventState = uiState.createEventState,
+                onDismissRequest = {
+                    onUiAction(DiscoverUiAction.OnCreateEventFABClicked(false))
+                }
+            )
+        }
+
         GoogleMap(
             onMapLoaded = {
                 coroutineScope.launch {
@@ -188,7 +214,12 @@ fun DiscoverScreen(
                         durationMs = 1000
                     )
                     markerState.position = uiState.selectedLocation.latLng
-                    onUiAction(DiscoverUiAction.OnRequestLocationPermissionClicked(true, context as Activity))
+                    onUiAction(
+                        DiscoverUiAction.OnRequestLocationPermissionClicked(
+                            true,
+                            context as Activity
+                        )
+                    )
                 }
             },
             modifier = Modifier
@@ -207,7 +238,7 @@ fun DiscoverScreen(
             ) {
                 Icon(
                     modifier = Modifier.size(32.dp),
-                    tint = Color.Red,
+                    tint = MaterialTheme.colorScheme.primary,
                     imageVector = Icons.Filled.LocationOn,
                     contentDescription = "Selected Location",
                 )
@@ -244,7 +275,12 @@ fun DiscoverScreen(
                 },
                 onRequestPermissionClick = {
                     onUiAction(DiscoverUiAction.UpdateEnableLocationDialogVisibility(false))
-                    // Note: Permission launcher is triggered via event from ViewModel
+                    onUiAction(
+                        DiscoverUiAction.OnRequestLocationPermissionClicked(
+                            true,
+                            context as Activity
+                        )
+                    )
                 }
             )
         }
@@ -265,22 +301,51 @@ fun DiscoverScreen(
                 }
             )
         }
+        val items = listOf<BookingsOverViewData>(
+            BookingsOverViewData(
+                icon = EmailIcon,
+                title = "Booking 1",
+                peopleJoined = "2/30"
+            ),
+            BookingsOverViewData(
+                icon = EmailIcon,
+                title = "Booking 1",
+                peopleJoined = "2/30"
+            ),
+            BookingsOverViewData(
+                icon = EmailIcon,
+                title = "Booking 1",
+                peopleJoined = "2/30"
+            ),
+            BookingsOverViewData(
+                icon = EmailIcon,
+                title = "Booking 1",
+                peopleJoined = "2/30"
+            ),
+            BookingsOverViewData(
+                icon = EmailIcon,
+                title = "Booking 1",
+                peopleJoined = "2/30"
+            )
+        )
+
 
         // Location Action Buttons
         Box(
             modifier = Modifier
                 .bottomPadding(60.dp)
                 .align(Alignment.BottomEnd)
-                .endPadding(12.dp)
+                .startPadding(24.dp)
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.End
             ) {
                 val interactionSource = remember { MutableInteractionSource() }
 
-                // My Location FAB
                 Box(
                     modifier = Modifier
+                        .endPadding(12.dp)
                         .clip(CircleShape)
                         .glassEffect(
                             shape = CircleShape,
@@ -301,17 +366,21 @@ fun DiscoverScreen(
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
+                BookingOverview(
+                    modifier = Modifier,
+                    items = items,
+                )
 
-                // Add Location FAB (placeholder)
                 Box(
                     modifier = Modifier
+                        .endPadding(12.dp)
                         .applyRadialGradientBackground(shape = CircleShape)
                         .clip(CircleShape)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null
                         ) {
-                            // TODO: Implement add location functionality
+                            onUiAction(DiscoverUiAction.OnCreateEventFABClicked(true))
                         }
                         .padding(18.dp),
                 ) {
@@ -327,9 +396,37 @@ fun DiscoverScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun DropDownPreview() {
-
-
+private fun DiscoverScreenPreview() {
+    HangoutsTheme {
+        DiscoverScreen(
+            uiState = DiscoverUiState(
+                locationInput = TextFieldState(),
+                isLocationDropdownExpanded = false,
+                predefinedLocations = listOf(
+                    MapLocation(
+                        name = "San Francisco",
+                        latLng = com.google.android.gms.maps.model.LatLng(37.7749, -122.4194),
+                        zoom = 12f
+                    ),
+                    MapLocation(
+                        name = "New York",
+                        latLng = com.google.android.gms.maps.model.LatLng(40.7128, -74.0060),
+                        zoom = 12f
+                    ),
+                    MapLocation(
+                        name = "Los Angeles",
+                        latLng = com.google.android.gms.maps.model.LatLng(34.0522, -118.2437),
+                        zoom = 12f
+                    )
+                )
+            ),
+            onUiAction = {},
+            cameraPositionState = rememberCameraPositionState(),
+            onOpenSettingsClick = {},
+            onActivityFinish = {},
+            markerState = MarkerState(),
+        )
+    }
 }

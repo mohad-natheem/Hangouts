@@ -38,9 +38,14 @@ fun EnableLocationDialog(
         onDismissRequest = onDismissRequest
     ) {
         Surface(
-            modifier = Modifier.glassEffect(),
-            color = Color.Black,
+            modifier = Modifier.glassEffect(
+                alpha = 0.7f,
+                backgroundColor = MaterialTheme.colorScheme.surface,
+                shape = MaterialTheme.shapes.medium,
+                borderColor = MaterialTheme.colorScheme.onSurface
+            ),
             shape = MaterialTheme.shapes.medium,
+            color = Color.Transparent
         ) {
             Column(
                 modifier = Modifier
@@ -64,32 +69,18 @@ fun EnableLocationDialog(
                     textAlign = TextAlign.Center
                 )
 
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .topPadding(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    onClick = onQuitClick
-                ) {
-                    Text(
-                        text = "Quit"
-                    )
-                }
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .topPadding(8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    ),
-                    onClick = onRequestPermissionClick
-                ) {
-                    Text(
-                        text = "Request Permission"
-                    )
-                }
+                HangoutsActionButton(
+                    modifier = Modifier.topPadding(16.dp),
+                    text = "Request Permission",
+                    onClick = onRequestPermissionClick,
+                    isLoading = false
+                )
+                HangoutsOutlinedActionButton(
+                    modifier = Modifier.topPadding(12.dp),
+                    text = "Quit",
+                    onClick = onQuitClick,
+                    isLoading = false
+                )
             }
         }
     }
